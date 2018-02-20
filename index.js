@@ -1,3 +1,10 @@
+/**
+ * Reporto (ᵔᴥᵔ)
+ * takes screenshots using Google chrome puppeteer
+ *
+ * help: https://medium.com/@e_mad_ehsan/getting-started-with-puppeteer-and-chrome-headless-for-web-scrapping-6bf5979dee3e
+ */
+
 const puppeteer = require('puppeteer')
 const mkdirp = require('mkdirp')
 const argv = require('minimist')(process.argv.slice(2))
@@ -10,10 +17,12 @@ async function run() {
   const today = new Date()
   let directoryName = today.getFullYear()
   +('0' + (today.getMonth() + 1)).slice(-2)
-  +('0' + (today.getDate() + 1)).slice(-2)
+  +('0' + (today.getDate())).slice(-2)
   + '-'
   +('0' + (today.getHours() + 1)).slice(-2)
   +('0' + (today.getMinutes() + 1)).slice(-2)
+
+  console.log(directoryName+'/')
 
   for (var pageName in SETTINGS.urls) {
 
@@ -21,7 +30,7 @@ async function run() {
 
       await page.setViewport(SETTINGS.viewports[viewport])
       await page.goto(SETTINGS.urls[pageName])
-      // await page.waitFor(3000)
+      await page.waitFor(3000)
       await mkdirp('screenshots/'+directoryName)
 
       let fileName = pageName+'-'+viewport
